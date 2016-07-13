@@ -10,6 +10,7 @@ namespace IdentityTest.Infrastructure
     {
         public override async Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
         {
+
             context.Validated();
         }
 

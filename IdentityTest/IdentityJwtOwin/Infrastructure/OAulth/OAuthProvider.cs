@@ -1,4 +1,5 @@
-﻿using Microsoft.Owin.Security.OAuth;
+﻿using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.Owin.Security.OAuth;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,42 +12,55 @@ namespace IdentityJwtOwin.Infrastructure
     public class OAuthProvider : OAuthAuthorizationServerProvider
     {
 
-        public override Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
+        public async override Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
+
+
+            var xx = context.Options.AuthenticationType;
 
             var identity = new ClaimsIdentity("otc");
             var username = context.OwinContext.Get<string>("otc:username");
             identity.AddClaim(new Claim("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name", username));
             identity.AddClaim(new Claim("http://schemas.microsoft.com/ws/2008/06/identity/claims/role", "user"));
             context.Validated(identity);
-            return Task.FromResult(0);
+            
         }
 
 
-        public override Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
+        public async override Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
         {
             try
             {
                 var username = context.Parameters["username"];
                 var password = context.Parameters["password"];
+                
 
-                if (username == password)
+                using (AuthRepository _repo = new AuthRepository())
                 {
-                    context.OwinContext.Set("otc:username", username);
-                    context.Validated();
+                    IdentityUser user = await _repo.FindUser(username, password);
+
+                    if (user == null)
+                    {
+                        context.SetError("invalid_grant", "The user name or password is incorrect.");
+                        context.Rejected();
+                    }
+                    else
+                    {
+                        context.OwinContext.Set("otc:username", username);
+                        context.Validated();
+                    }
+                    
+
                 }
-                else
-                {
-                    context.SetError("Invalid credentials");
-                    context.Rejected();
-                }
+
+                
             }
             catch
             {
                 context.SetError("Server error");
                 context.Rejected();
             }
-            return Task.FromResult(0);
+            
         }
         
     }

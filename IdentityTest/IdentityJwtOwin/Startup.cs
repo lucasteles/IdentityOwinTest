@@ -13,7 +13,7 @@ Install-Package Microsoft.AspNet.Identity.EntityFramework
 Install-Package Microsoft.Owin.Security.OAuth 
 Install-Package Microsoft.Owin.Cors
 
-Install-Package System.IdentityModel.Tokens.Jwt -Version 4.0.0
+
 Install-Package Microsoft.Owin.Security.Jwt
 
     */

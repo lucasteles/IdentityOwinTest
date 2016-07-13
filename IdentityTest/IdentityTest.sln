@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityJwtOwin", "IdentityJwtOwin\IdentityJwtOwin.csproj", "{406602F3-5B0D-4D23-A8EE-4822D57B9D22}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityTest", "IdentityTest\IdentityTest.csproj", "{C2987D67-6BA4-48EF-9AED-931E5CC95B77}"
 EndProject
 Global
@@ -11,6 +13,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{406602F3-5B0D-4D23-A8EE-4822D57B9D22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{406602F3-5B0D-4D23-A8EE-4822D57B9D22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{406602F3-5B0D-4D23-A8EE-4822D57B9D22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{406602F3-5B0D-4D23-A8EE-4822D57B9D22}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C2987D67-6BA4-48EF-9AED-931E5CC95B77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C2987D67-6BA4-48EF-9AED-931E5CC95B77}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C2987D67-6BA4-48EF-9AED-931E5CC95B77}.Release|Any CPU.ActiveCfg = Release|Any CPU
