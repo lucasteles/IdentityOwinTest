@@ -1,4 +1,5 @@
-﻿using Microsoft.Owin;
+﻿using IdentityJwtOwin.Infrastructure.Refresh_Token;
+using Microsoft.Owin;
 using Microsoft.Owin.Security.OAuth;
 using System;
 
@@ -9,11 +10,13 @@ namespace IdentityJwtOwin.Infrastructure
     {
         public OAuthOptions()
         {
+            AllowInsecureHttp = true;
             TokenEndpointPath = new PathString("/token");
             AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(60);
             AccessTokenFormat = new JwtFormat(this);
             Provider = new OAuthProvider();
-            AllowInsecureHttp = true;
+            RefreshTokenProvider = new SimpleRefreshTokenProvider();
+            
         }
     }
 }

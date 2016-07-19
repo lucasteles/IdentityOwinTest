@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNet.Identity.EntityFramework;
+﻿
+using IdentityJwtOwin.Infrastructure.Refresh_Token;
+using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 
@@ -15,5 +18,8 @@ namespace IdentityJwtOwin.Infrastructure
             Configuration.ProxyCreationEnabled = false;
             Configuration.AutoDetectChangesEnabled = false;
         }
+                
+        public DbSet<Client> Clients { get; set; }
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
     }
 }
