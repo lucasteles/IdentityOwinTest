@@ -14,6 +14,7 @@ namespace IdentityJwtOwin.Controllers
         public AccountController()
         {
             _repo = new AuthRepository();
+            
         }
 
         // POST api/Account/Register

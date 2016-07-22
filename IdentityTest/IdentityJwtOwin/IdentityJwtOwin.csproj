@@ -164,6 +164,7 @@
   <ItemGroup>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
+    <Compile Include="DatabaseAuthorize.cs" />
     <Compile Include="Infrastructure\Identity\AuthContext .cs" />
     <Compile Include="Infrastructure\Identity\AuthRepository.cs" />
     <Compile Include="Infrastructure\Identity\RoleModel.cs" />
