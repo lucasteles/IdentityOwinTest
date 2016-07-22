@@ -6,8 +6,14 @@ namespace IdentityJwtOwin.Controllers
 {
     public class OrdersController : ApiController
     {
-        [Authorize]
+        [Authorize(Roles = "Positivador")]
         public IHttpActionResult Get()
+        {
+            return Ok(Order.CreateOrders());
+        }
+
+        [Authorize(Roles = "PDV")]
+        public IHttpActionResult GetB()
         {
             return Ok(Order.CreateOrders());
         }

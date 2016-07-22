@@ -10,11 +10,11 @@ namespace IdentityJwtOwin.Infrastructure
     {
         public JwtOptions()
         {
+            
             var issuer = "localhost";
-            var audience = "all";
-            var key = Convert.FromBase64String("VUh4TnRZTVJZd3ZmcE8xZFM1cFdMS0wwTTJEZ09qNDBFYk40U29CV2dmYw==");
+            var key = Convert.FromBase64String(AuthConstants.JWT_KEY);
 
-            AllowedAudiences = new[] { audience };
+            AllowedAudiences =  (new AuthRepository()).GetClients().Select(e=>e.Id.Trim().ToLower()).ToArray();
             IssuerSecurityTokenProviders = new[]
             {
                 new SymmetricKeyIssuerSecurityTokenProvider(issuer, key)

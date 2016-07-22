@@ -29,7 +29,9 @@ namespace IdentityJwtOwin
         {
             HttpConfiguration config = new HttpConfiguration();            
             WebApiConfig.Register(config);
-                        
+
+            var xxx = Helper.GetHash("wund@vivo!positivacao");
+
              app
                .UseOAuthAuthorizationServer(new OAuthOptions())
                .UseJwtBearerAuthentication(new JwtOptions())

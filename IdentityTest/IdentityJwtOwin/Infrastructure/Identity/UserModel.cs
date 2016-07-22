@@ -9,8 +9,13 @@ namespace IdentityJwtOwin.Infrastructure
         public class UserModel
     {
         [Required]
+        [Display(Name = "E-mail")]
+        [EmailAddress]
+        public string UserMail{ get; set; }
+
+        
         [Display(Name = "User name")]
-        public string UserName { get; set; }
+        public string UserName{ get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
@@ -22,6 +27,11 @@ namespace IdentityJwtOwin.Infrastructure
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        [Display(Name = "Roles")]
+        public string[] Role { get; set; }
+
+
     }
 
 

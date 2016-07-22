@@ -5,9 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace IdentityJwtOwin.Infrastructure.Refresh_Token
+namespace IdentityJwtOwin.Infrastructure
 {
-    public class SimpleRefreshTokenProvider : IAuthenticationTokenProvider
+    public class RefreshTokenProvider : IAuthenticationTokenProvider
     {
         public void Create(AuthenticationTokenCreateContext context)
         {

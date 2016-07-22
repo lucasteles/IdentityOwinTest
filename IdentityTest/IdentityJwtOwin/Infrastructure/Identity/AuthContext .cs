@@ -1,5 +1,4 @@
 ﻿
-using IdentityJwtOwin.Infrastructure.Refresh_Token;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;

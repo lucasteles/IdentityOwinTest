@@ -30,9 +30,10 @@ namespace IdentityJwtOwin.Infrastructure
         {
             if (data == null) throw new ArgumentNullException("data");
 
-            var issuer = "localhost";
-            var audience = "all";
-            var key = Convert.FromBase64String("VUh4TnRZTVJZd3ZmcE8xZFM1cFdMS0wwTTJEZ09qNDBFYk40U29CV2dmYw==");
+            var issuer = AuthConstants.JWT_ISSUER;
+            var audience =  data.Properties.Dictionary["as:client_id"].ToString().Trim().ToLower(); 
+            var key = Convert.FromBase64String(AuthConstants.JWT_KEY);
+
             var now = DateTime.UtcNow;
             var expires = now.AddMinutes(_options.AccessTokenExpireTimeSpan.TotalMinutes);
             var signingCredentials = new SigningCredentials(

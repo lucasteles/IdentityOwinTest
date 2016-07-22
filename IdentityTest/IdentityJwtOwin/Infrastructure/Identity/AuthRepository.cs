@@ -1,4 +1,4 @@
-﻿using IdentityJwtOwin.Infrastructure.Refresh_Token;
+﻿
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
@@ -12,19 +12,55 @@ namespace IdentityJwtOwin.Infrastructure
     {
         private AuthContext _ctx;
         private UserManager<IdentityUser> _userManager;
+        private RoleManager<IdentityRole> _roleManager;
+
 
         public AuthRepository()
         {
             _ctx = new AuthContext();
             _userManager = new UserManager<IdentityUser>(new UserStore<IdentityUser>(_ctx));
+            _roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(_ctx));
+
+            _userManager.PasswordValidator = new PasswordValidator
+            {
+                RequiredLength = 6,
+                RequireNonLetterOrDigit = true,
+                RequireDigit = true,
+                RequireLowercase = true,
+                RequireUppercase = true,
+            };
+
         }
 
         public async Task<IdentityResult> RegisterUser(UserModel userModel)
         {
             IdentityUser user = new IdentityUser
             {
-                UserName = userModel.UserName
+                UserName = userModel.UserMail,
+                Email = userModel.UserMail
             };
+
+            var errors = new List<string>();
+
+            foreach (var item in userModel.Role)
+            {
+                var role = await FindRole(item);
+                if (role==null)
+                {
+                    errors.Add("Role '" + item + "' dont exist");
+                }
+                else
+                {
+                    user.Roles.Add(new IdentityUserRole { RoleId = role.Id, UserId = user.Id });
+                }
+
+            }
+            if (errors.Count()>0)
+            {
+                return new IdentityResult(errors);
+            }
+
+            
 
             var result = await _userManager.CreateAsync(user, userModel.Password);
 
@@ -44,12 +80,54 @@ namespace IdentityJwtOwin.Infrastructure
 
         }
 
+        public async Task<IdentityResult> CreateRole(string roleName)
+        {
+
+            var errors = new List<string>();
+            var role = new IdentityRole(roleName);
+
+            if (! await _roleManager.RoleExistsAsync(roleName))
+            {
+                return await _roleManager.CreateAsync(role);
+            }
+            else
+            {
+                errors.Add("Role already exists");
+            }
+
+            return new IdentityResult(errors);
+
+        }
+
+        public async Task<IdentityRole> FindRole(string roleName)
+        {
+            return await _roleManager.FindByNameAsync(roleName);
+        }
+
+        public async Task<IList<string>> GetRolesOfUser(IdentityUser user)
+        {
+            return await _userManager.GetRolesAsync(user.Id);
+        }
 
         public Client FindClient(string clientId)
         {
             var client = _ctx.Clients.Find(clientId);
 
             return client;
+        }
+
+        public async Task<bool> AddClient(Client client)
+        {
+            
+            client.Secret = Helper.GetHash(client.Secret);
+            _ctx.Clients.Add(client);
+
+            return await _ctx.SaveChangesAsync() > 0;
+        }
+
+        public IList<Client> GetClients()
+        {
+            return _ctx.Clients.Where(e => e.Active).ToList();
         }
 
         public async Task<bool> AddRefreshToken(RefreshToken token)

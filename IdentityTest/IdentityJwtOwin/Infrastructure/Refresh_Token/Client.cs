@@ -5,12 +5,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
-namespace IdentityJwtOwin.Infrastructure.Refresh_Token
+namespace IdentityJwtOwin.Infrastructure
 {
     [Table("Client")]
     public class Client
     {
         [Key]
+        [Required]
         public string Id { get; set; }
         [Required]
         public string Secret { get; set; }

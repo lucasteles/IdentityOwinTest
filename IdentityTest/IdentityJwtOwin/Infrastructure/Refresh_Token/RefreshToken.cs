@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
-namespace IdentityJwtOwin.Infrastructure.Refresh_Token
+namespace IdentityJwtOwin.Infrastructure
 {
     [Table("RefreshToken")]
     public class RefreshToken

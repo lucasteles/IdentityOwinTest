@@ -9,6 +9,7 @@ namespace IdentityJwtOwin.Controllers
     public class AccountController : ApiController
     {
         private AuthRepository _repo = null;
+        
 
         public AccountController()
         {
@@ -25,7 +26,30 @@ namespace IdentityJwtOwin.Controllers
                 return BadRequest(ModelState);
             }
 
+            
             IdentityResult result = await _repo.RegisterUser(userModel);
+            IHttpActionResult errorResult = GetErrorResult(result);
+
+            if (errorResult != null)
+            {
+                return errorResult;
+            }
+
+            return Ok();
+        }
+
+
+      
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<IHttpActionResult> CreateRole(RoleModel roleModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            IdentityResult result = await _repo.CreateRole(roleModel.RoleName);
 
             IHttpActionResult errorResult = GetErrorResult(result);
 
@@ -37,15 +61,26 @@ namespace IdentityJwtOwin.Controllers
             return Ok();
         }
 
-        protected override void Dispose(bool disposing)
+
+        // POST api/Account/AddClient
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IHttpActionResult> AddClient(Client clientModel)
         {
-            if (disposing)
+            if (!ModelState.IsValid)
             {
-                _repo.Dispose();
+                return BadRequest(ModelState);
             }
 
-            base.Dispose(disposing);
+            var result = await _repo.AddClient(clientModel);
+
+            if (result)
+                return BadRequest();
+
+
+            return Ok();
         }
+
 
         private IHttpActionResult GetErrorResult(IdentityResult result)
         {
@@ -75,5 +110,24 @@ namespace IdentityJwtOwin.Controllers
 
             return null;
         }
+
+
+     
+
+
+
+
+
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _repo.Dispose();
+            }
+
+            base.Dispose(disposing);
+        }
+
     }
 }

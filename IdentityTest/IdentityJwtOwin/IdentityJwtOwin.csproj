@@ -166,7 +166,9 @@
     <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Infrastructure\Identity\AuthContext .cs" />
     <Compile Include="Infrastructure\Identity\AuthRepository.cs" />
-    <Compile Include="Infrastructure\Refresh_Token\SimpleRefreshTokenProvider.cs" />
+    <Compile Include="Infrastructure\Identity\RoleModel.cs" />
+    <Compile Include="Infrastructure\Refresh_Token\RefreshTokenProvider.cs" />
+    <Compile Include="Infrastructure\Static\AuthConstants.cs" />
     <Compile Include="Infrastructure\Static\Helper.cs" />
     <Compile Include="Infrastructure\Identity\UserModel.cs" />
     <Compile Include="Infrastructure\Refresh_Token\ApplicationTypesEnum.cs" />
