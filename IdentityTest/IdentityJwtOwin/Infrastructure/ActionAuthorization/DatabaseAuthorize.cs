@@ -1,4 +1,6 @@
-﻿using System;
+﻿
+using IdentityJwtOwin.Infrastructure;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -32,20 +34,28 @@ namespace IdentityJwtOwin
 
                 var user = (ClaimsIdentity)incomingPrincipal.Identity;
                 var userRoles = user.Claims.Where(o => o.Type.Equals(user.RoleClaimType))
-                                .Select(e => e.Value).ToList();
+                                .Select(e => e.Value.ToLower().Trim()).ToList();
 
                 // validar controler e action por role.
                 // pode buscar no banco
-                if (userRoles.Contains("XXX") && controllerName=="YYY"  )
+
+                using (var repo = new AccessRightRepository())
                 {
-                    return true;
+                    var roles = repo.GetRolesFromAction(controllerName, actionName);
+
+                    if (roles == null)
+                        return false;
+
+                    foreach (var item in userRoles)
+                    {
+                        if (roles.Contains(item))
+                            return true;
+
+                    }
+
                 }
-
-                
             }
-
-
-
+            
             return false;
         }
 
